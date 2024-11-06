@@ -156,6 +156,7 @@ class MemoryPool {
     size_t reserved_bytes;   ///<  Unallocated bytes in assigned superblocks
   };
 
+  template <class ExecutionSpace = Kokkos::DefaultExecutionSpace>
   void get_usage_statistics(usage_statistics &stats) const {
     Kokkos::HostSpace host;
 
@@ -165,8 +166,9 @@ class MemoryPool {
         accessible ? m_sb_state_array : (uint32_t *)host.allocate(alloc_size);
 
     if (!accessible) {
-      Kokkos::Impl::DeepCopy<Kokkos::HostSpace, base_memory_space>(
-          sb_state_array, m_sb_state_array, alloc_size);
+      Kokkos::Impl::DeepCopy<Kokkos::HostSpace, base_memory_space,
+                             ExecutionSpace>(ExecutionSpace{}, sb_state_array,
+                                             m_sb_state_array, alloc_size);
       Kokkos::fence(
           "MemoryPool::get_usage_statistics(): fence after copying state "
           "array to HostSpace");
@@ -208,6 +210,7 @@ class MemoryPool {
     }
   }
 
+  template <class ExecutionSpace = Kokkos::DefaultExecutionSpace>
   void print_state(std::ostream &s) const {
     Kokkos::HostSpace host;
 
@@ -217,8 +220,9 @@ class MemoryPool {
         accessible ? m_sb_state_array : (uint32_t *)host.allocate(alloc_size);
 
     if (!accessible) {
-      Kokkos::Impl::DeepCopy<Kokkos::HostSpace, base_memory_space>(
-          sb_state_array, m_sb_state_array, alloc_size);
+      Kokkos::Impl::DeepCopy<Kokkos::HostSpace, base_memory_space,
+                             ExecutionSpace>(ExecutionSpace{}, sb_state_array,
+                                             m_sb_state_array, alloc_size);
       Kokkos::fence(
           "MemoryPool::print_state(): fence after copying state array to "
           "HostSpace");
@@ -266,6 +270,7 @@ class MemoryPool {
    *  is also a power-of-two.  These roundings are made to enable
    *  significant runtime performance improvements.
    */
+  template <class ExecutionSpace = Kokkos::DefaultExecutionSpace>
   MemoryPool(const base_memory_space &memspace,
              const size_t min_total_alloc_size, size_t min_block_alloc_size = 0,
              size_t max_block_alloc_size = 0, size_t min_superblock_size = 0)
@@ -429,8 +434,9 @@ class MemoryPool {
     // Write out initialized state:
 
     if (!accessible) {
-      Kokkos::Impl::DeepCopy<base_memory_space, Kokkos::HostSpace>(
-          m_sb_state_array, sb_state_array, header_size);
+      Kokkos::Impl::DeepCopy<base_memory_space, Kokkos::HostSpace,
+                             ExecutionSpace>(ExecutionSpace{}, m_sb_state_array,
+                                             sb_state_array, header_size);
       Kokkos::fence(
           "MemoryPool::MemoryPool(): fence after copying state array from "
           "HostSpace");
