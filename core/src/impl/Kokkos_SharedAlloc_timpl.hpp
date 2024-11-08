@@ -128,6 +128,7 @@ void SharedAllocationRecordCommon<MemorySpace>::deallocate_tracked(
 }
 
 template <class MemorySpace>
+template <class Dummy>
 void* SharedAllocationRecordCommon<MemorySpace>::reallocate_tracked(
     void* arg_alloc_ptr, size_t arg_alloc_size) {
   derived_t* const r_old = derived_t::get_record(arg_alloc_ptr);

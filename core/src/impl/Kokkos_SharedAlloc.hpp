@@ -264,6 +264,7 @@ class SharedAllocationRecordCommon : public SharedAllocationRecord<void, void> {
   /**\brief  Reallocate tracked memory in the space */
   static void deallocate_tracked(void* arg_alloc_ptr);
   /**\brief  Deallocate tracked memory in the space */
+  template <class Dummy = void>
   static void* reallocate_tracked(void* arg_alloc_ptr, size_t arg_alloc_size);
   static auto get_record(void* alloc_ptr) -> derived_t*;
   std::string get_label() const override;
