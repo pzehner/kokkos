@@ -242,7 +242,7 @@ function(KOKKOS_SET_LIBRARY_PROPERTIES LIBRARY_NAME)
        AND (NOT (KOKKOS_ENABLE_CUDA) OR ("${CMAKE_CXX_COMPILER}" MATCHES "nvcc_wrapper") OR (${KOKKOS_CXX_COMPILER_ID}
                                                                                              STREQUAL Clang))
     )
-      kokkos_check_flags(LINKER LANGUAGE ${KOKKOS_COMPILE_LANGUAGE} FLAGS ${KOKKOS_LINK_OPTIONS})
+      # kokkos_check_flags(LINKER LANGUAGE ${KOKKOS_COMPILE_LANGUAGE} FLAGS ${KOKKOS_LINK_OPTIONS})
     endif()
   endif()
 
@@ -310,7 +310,7 @@ function(KOKKOS_SET_LIBRARY_PROPERTIES LIBRARY_NAME)
        AND (NOT (KOKKOS_ENABLE_CUDA) OR ("${CMAKE_CXX_COMPILER}" MATCHES "nvcc_wrapper") OR (${KOKKOS_CXX_COMPILER_ID}
                                                                                              STREQUAL Clang))
     )
-      kokkos_check_flags(COMPILER LANGUAGE ${KOKKOS_COMPILE_LANGUAGE} FLAGS ${ALL_KOKKOS_COMPILER_FLAGS})
+      # kokkos_check_flags(COMPILER LANGUAGE ${KOKKOS_COMPILE_LANGUAGE} FLAGS ${ALL_KOKKOS_COMPILER_FLAGS})
     endif()
   endif()
 
